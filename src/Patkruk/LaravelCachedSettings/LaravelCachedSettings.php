@@ -162,7 +162,7 @@ class LaravelCachedSettings
      */
     public function has($key)
     {
-        return (boolean) $this->persistentHandler->has($key);
+        return $this->cacheHandler->has($key) || $this->persistentHandler->has($key);
     }
 
     /**
