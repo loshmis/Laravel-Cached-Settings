@@ -102,7 +102,7 @@ class LaravelCachedSettings
      * @param  string $default
      * @return string|false
      */
-    public function get($key, $default = false)
+    public function get($key, $default = null)
     {
         // use cache if possible
         if (isset($this->cacheHandler) && $this->cacheHandler->has($key)) return $this->cacheHandler->get($key);
