@@ -1,5 +1,10 @@
 /vendor
 composer.phar
 composer.lock
+<<<<<<< HEAD
 .idea
 .DS_Store
+=======
+.DS_Store
+.idea
+>>>>>>> l5
