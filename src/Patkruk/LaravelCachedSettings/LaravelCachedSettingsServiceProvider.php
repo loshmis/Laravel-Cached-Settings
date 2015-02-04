@@ -28,7 +28,7 @@ class LaravelCachedSettingsServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		$this->package('patkruk/laravel-cached-settings');
+		$this->mergeConfigFrom(__DIR__ . '/../../config/config.php', 'laravel-cached-settings');
 	}
 
 	/**
@@ -42,9 +42,9 @@ class LaravelCachedSettingsServiceProvider extends ServiceProvider {
 		$this->app['cachedSettings.cacheHandler'] = $this->app->share(function($app)
 		{
 			return new CacheHandler(
-					$app->make('cache'),
-					$app['config']->getEnvironment(),
-					$app['config']->get('laravel-cached-settings::prefix')
+				$app->make('cache'),
+				getenv('APP_ENV'),
+				$app['config']->get('laravel-cached-settings.prefix')
 			);
 		});
 
@@ -52,9 +52,9 @@ class LaravelCachedSettingsServiceProvider extends ServiceProvider {
 		$this->app['cachedSettings.persistentHandler'] = $this->app->share(function($app)
 		{
 			return new DatabaseHandler(
-					$app->make('db'),
-					$app['config']->getEnvironment(),
-					$app['config']->get('laravel-cached-settings::tableName')
+				$app->make('db'),
+				getenv('APP_ENV'),
+				$app['config']->get('laravel-cached-settings.tableName')
 			);
 		});
 
@@ -62,8 +62,8 @@ class LaravelCachedSettingsServiceProvider extends ServiceProvider {
 		$this->app['cachedsettings'] = $this->app->share(function($app)
 		{
 			return new LaravelCachedSettings(
-				$app['config']->getEnvironment(), 					// current environment
-				$app['config']['laravel-cached-settings::cache'], 	// package config cache flag
+				getenv('APP_ENV'), 					// current environment
+				$app['config']['laravel-cached-settings.cache'], 	// package config cache flag
 				$app->make('cachedSettings.cacheHandler'),
 				$app->make('cachedSettings.persistentHandler'),
 				new FileSystemOperations()
