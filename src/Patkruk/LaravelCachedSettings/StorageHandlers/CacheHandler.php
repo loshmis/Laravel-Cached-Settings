@@ -67,7 +67,7 @@ class CacheHandler implements CacheHandlerInterface
         // update the local cache
         $this->settings[$key] = $value;
 
-        $this->cache->put($this->key($key), $value, 0);
+        $this->cache->put($this->key($key), $value, 365 * 24 * 60);
     }
 
     /**
